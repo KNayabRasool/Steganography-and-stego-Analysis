@@ -8,9 +8,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-# -----------------------------
 # LSB Steganography Functions
-# -----------------------------
+
 def encode_message(img: Image.Image, message: str) -> Image.Image:
     img = img.convert("RGB")
     img_array = np.array(img)
@@ -47,9 +46,9 @@ def decode_message(img: Image.Image) -> str:
     return bytes(bytes_list).decode('utf-8')
 
 
-# -----------------------------
 # Detection Feature Extractor
-# -----------------------------
+
+
 def extract_features(img: Image.Image):
     img = img.convert("L")
     arr = np.array(img).astype(float)
@@ -59,9 +58,9 @@ def extract_features(img: Image.Image):
     return [mean, std, edge_strength]
 
 
-# -----------------------------
 # Train Detection Model (Run Once)
-# -----------------------------
+
+
 def train_detection_model(data_dir="dataset", save_model=True):
     X, y = [], []
     for label, folder in enumerate(["clean", "stego"]):
@@ -95,17 +94,15 @@ def load_detection_model():
         return None
 
 
-# -----------------------------
 # Streamlit UI
-# -----------------------------
+
 st.set_page_config(page_title="Steganography & Detection Suite", page_icon="🧠", layout="centered")
 st.title("🧠 Unified Image Steganography & Detection App")
 
 menu = st.sidebar.selectbox("Choose an Option", ["Hide Message", "Extract Message", "Detect Stego Image", "Train Detector"])
 
-# -----------------------------
 # HIDE MESSAGE
-# -----------------------------
+
 if menu == "Hide Message":
     st.header("🔒 Hide a Secret Message")
     uploaded_file = st.file_uploader("Upload an Image", type=["png", "jpg", "jpeg"])
@@ -127,9 +124,11 @@ if menu == "Hide Message":
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# -----------------------------
+
+
 # EXTRACT MESSAGE
-# -----------------------------
+
+
 elif menu == "Extract Message":
     st.header("🔓 Extract Hidden Message")
     uploaded = st.file_uploader("Upload Encoded Image", type=["png", "jpg", "jpeg"])
@@ -145,9 +144,11 @@ elif menu == "Extract Message":
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# -----------------------------
+
+
 # DETECT STEGO IMAGE
-# -----------------------------
+
+
 elif menu == "Detect Stego Image":
     st.header("🕵️ Detect Hidden Data in Image")
     uploaded = st.file_uploader("Upload Image to Analyze", type=["png", "jpg", "jpeg"])
@@ -167,9 +168,9 @@ elif menu == "Detect Stego Image":
             else:
                 st.success("✅ No hidden data detected (Clean Image).")
 
-# -----------------------------
 # TRAIN DETECTOR
-# -----------------------------
+
+
 else:
     st.header("🧩 Train Steganography Detection Model")
     st.write("""
